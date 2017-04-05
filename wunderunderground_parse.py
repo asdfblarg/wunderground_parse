@@ -35,9 +35,9 @@ def scrap_daily_wunder_html():
         # print(col_dict)
         writer.writerow(col_dict)
 
-def scrap_daily_wunder_csv():
+def scrap_daily_wunder_csv(year, month, date):
     writer = csv.writer(csvfile)
-    url = 'https://www.wunderground.com/history/airport/KNYC/2017/4/3/DailyHistory.html?format=0'
+    url = 'https://www.wunderground.com/history/airport/KNYC/{0}/{1}/{2}/DailyHistory.html?format=0'.format(year, month, date)
     r = requests.get(url)
     contents = str(r.content).split("<br />\\n")
     header = contents[0][4:].split(',')
@@ -51,4 +51,4 @@ def scrap_daily_wunder_csv():
 
 with open('wunderground_test.csv', 'w', newline='') as csvfile:
     # scrap_daily_wunder_html()
-    scrap_daily_wunder_csv()
+    scrap_daily_wunder_csv(2017,4,3)
