@@ -1,7 +1,0 @@
-env
-*.pyc
-staticfiles
-.env
-.idea
-snippets
-*.csv
