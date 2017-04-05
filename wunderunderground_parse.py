@@ -43,11 +43,10 @@ def scrap_daily_wunder_csv(year, month, day):
     header = contents[0][4:].split(',')
     # print(header)
     # writer.writerow(header)
-    rows = [list(row.split(',')) for row in contents[1:]]
+    rows = [list(row.split(',')) for row in contents[1:]][:-1]
     for row in rows:
-        print(row)
+        # print(row)
         writer.writerow(row)
-
 
 
 # scrap_daily_wunder_csv(2017,4,3)
@@ -55,7 +54,7 @@ def scrap_daily_wunder_csv(year, month, day):
 with open('wunderground_test.csv', 'w', newline='') as csvfile:
     header = ['TimeEDT', 'TemperatureF', 'Dew PointF', 'Humidity', 'Sea Level PressureIn', 'VisibilityMPH', 'Wind Direction', 'Wind SpeedMPH', 'Gust SpeedMPH', 'PrecipitationIn', 'Events', 'Conditions', 'WindDirDegrees', 'DateUTC']
     writer = csv.writer(csvfile)
-    writer.writerow(header)
+    # writer.writerow(header)
 
     monthswith30days = [4,6,9,11]
     year = 2016
@@ -71,5 +70,6 @@ with open('wunderground_test.csv', 'w', newline='') as csvfile:
             if month in monthswith30days and day > 30:
                 break
 
-            # print(year, month, day)
+            print(year, month, day)
             scrap_daily_wunder_csv(year, month, day)
+
