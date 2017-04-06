@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-start_year = 2015
-end_year = 2016
+start_year = 2014
+end_year = 2015
 filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
 months_with_30days = [4, 6, 9, 11]
 column_names = ['Time(EDT)', 'Temp.', 'Dew Point', 'Humidity', 'Pressure', 'Visibility', 'Wind Dir', 'Wind Speed',
@@ -57,7 +57,7 @@ def scrap_year(year):
             # take care of months with 30 days
             if month in months_with_30days and day > 30:
                 break
-            print(year, month, day)
+            print('\r{0} {1} {2}'.format(year, month, day), end='')
             scrap_daily_wunder_csv(year, month, day)
 
 
@@ -68,3 +68,4 @@ with open(filename , 'w', newline='') as csvfile:
 
     for year in range(start_year, end_year+1):
         scrap_year(year)
+
