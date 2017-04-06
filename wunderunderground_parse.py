@@ -2,8 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 
-start_year = 2014
-end_year = 2015
+start_year = 2013
+end_year = 2014
 filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
 months_with_30days = [4, 6, 9, 11]
 column_names = ['Time(EDT)', 'Temp.', 'Dew Point', 'Humidity', 'Pressure', 'Visibility', 'Wind Dir', 'Wind Speed',
@@ -65,6 +65,7 @@ def scrap_year(year):
 with open(filename , 'w', newline='') as csvfile:
     # write header
     writer = csv.writer(csvfile)
+    writer.writerow(header)
 
     for year in range(start_year, end_year+1):
         scrap_year(year)
