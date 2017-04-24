@@ -3,11 +3,12 @@ from bs4 import BeautifulSoup
 import csv
 import datetime
 
-station = 'KNYNEWYO591'
+# station = 'KNYNEWYO591'
+station = 'KNYNEWYO421'
 start_year = 2016
 end_year = 2017
 # filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
-filename = 'amateur_{0}-{1}.csv'.format(start_year, end_year)
+filename = 'amateur_{2}_{0}-{1}.csv'.format(start_year, end_year, station)
 
 months_with_30days = [4, 6, 9, 11]
 
