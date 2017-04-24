@@ -70,3 +70,4 @@ with open(filename , 'w', newline='') as csvfile:
     for year in range(start_year, end_year+1):
         scrap_year(year)
 
+    print("finished")
