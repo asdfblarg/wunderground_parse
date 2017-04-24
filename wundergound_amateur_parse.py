@@ -7,7 +7,7 @@ station = 'KNYNEWYO591'
 start_year = 2016
 end_year = 2017
 # filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
-filename = 'amateur_test.csv'
+filename = 'amateur_{0}-{1}.csv'.format(start_year, end_year)
 
 months_with_30days = [4, 6, 9, 11]
 
