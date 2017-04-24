@@ -1,30 +1,36 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import datetime
 
-start_year = 2013
-end_year = 2014
-filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
+station = 'KNYNEWYO591'
+start_year = 2016
+end_year = 2017
+# filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
+filename = 'amateur_test.csv'
+
 months_with_30days = [4, 6, 9, 11]
-column_names = ['Time(EDT)', 'Temp.', 'Dew Point', 'Humidity', 'Pressure', 'Visibility', 'Wind Dir', 'Wind Speed',
-                'Gust Speed', 'Precip', 'Events', 'Conditions']
-header = ['TimeEDT', 'TemperatureF', 'Dew PointF', 'Humidity', 'Sea Level PressureIn', 'VisibilityMPH',
-          'Wind Direction', 'Wind SpeedMPH', 'Gust SpeedMPH', 'PrecipitationIn', 'Events', 'Conditions',
-          'WindDirDegrees', 'DateUTC']
 
+# header = ['TimeEDT', 'TemperatureF', 'Dew PointF', 'Humidity', 'Sea Level PressureIn', 'VisibilityMPH',
+#           'Wind Direction', 'Wind SpeedMPH', 'Gust SpeedMPH', 'PrecipitationIn', 'Events', 'Conditions',
+#           'WindDirDegrees', 'DateUTC']
 
-def scrap_daily_wunder_csv(year, month, day):
+# url = 'https://www.wunderground.com/weatherstation/WXDailyHistory.asp?ID=KNYNEWYO591&day=21&month=04&year=2017&graphspan=day&format=1'
+
+def scrap_daily_wunder_csv(year, month, day, station):
     # writer = csv.writer(csvfile)
-    url = 'https://www.wunderground.com/history/airport/KNYC/{0}/{1}/{2}/DailyHistory.html?format=1'\
-                                                                                    .format(year, month, day)
+    url = 'https://www.wunderground.com/weatherstation/WXDailyHistory.asp' \
+                '?ID={3}&day={2}&month={1}&year={0}&graphspan=day&format=1'.format(year, month, day, station)
+
     r = requests.get(url)
-    contents = str(r.content).split("<br />\\n")
+    contents = str(r.content).split("<br>\\n")
     # header = contents[0][4:].split(',')
-    # writer.writerow(header)
-    rows = [list(row.split(',')) for row in contents[1:]][:-1]
+
+    rows = [list(row.split(','))[:-1] for row in contents[1:]][:-1]
     for row in rows:
         # print(row)
         writer.writerow(row)
+
 
 
 def scrap_year(year):
@@ -39,14 +45,33 @@ def scrap_year(year):
             if month in months_with_30days and day > 30:
                 break
             print('\r{0} {1} {2}'.format(year, month, day), end='')
-            scrap_daily_wunder_csv(year, month, day)
+            scrap_daily_wunder_csv(year, month, day, station)
 
 
 
 with open(filename , 'w', newline='') as csvfile:
     # write header
+
+    today_year= datetime.datetime.today().year
+    today_month = datetime.datetime.today().month
+    today_day = datetime.datetime.today().day
+
+    url = 'https://www.wunderground.com/weatherstation/WXDailyHistory.asp' \
+          '?ID={3}&day={2}&month={1}&year={0}&graphspan=day&format=1'.format(today_year, today_month, today_day, station)
+    # print(today_year,today_month,today_day)
+
+    r = requests.get(url)
+    contents = str(r.content).split("<br>\\n")
+    header = contents[0][4:].split(',')
+    # print(header)
     writer = csv.writer(csvfile)
     writer.writerow(header)
+
+    # rows = [list(row.split(','))[:-1] for row in contents[1:]][:-1]
+    # for row in rows:
+    #     print(row)
+    #     writer.writerow(row)
+
 
     for year in range(start_year, end_year+1):
         scrap_year(year)
