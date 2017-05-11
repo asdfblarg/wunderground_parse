@@ -64,9 +64,9 @@ def scrap_year(year):
             if month in months_with_30days and day > 30:
                 break
 
-            # skip until start date if appending to file
-            if datetime.date(year, month, day) < datetime.date(2015, 8, 31):
-                continue
+            # # skip until start date if appending to file
+            # if datetime.date(year, month, day) < datetime.date(2015, 8, 31):
+            #     continue
 
             # stop after today's date
             if datetime.date(year, month, day) > datetime.date.today():
@@ -76,25 +76,25 @@ def scrap_year(year):
 
 
 
-# with open(filename , 'w', newline='') as csvfile:
-#     # write header
-#     writer = csv.writer(csvfile)
-#     writer.writerow(header)
-#
-#     for year in range(start_year, end_year+1):
-#         scrap_year(year)
-#
-#     print("\nfinished!")
-
-# append to file with start year
-with open(filename , 'a', newline='') as csvfile:
+with open(filename , 'w', newline='') as csvfile:
     # write header
     writer = csv.writer(csvfile)
-    # writer.writerow(header)
+    writer.writerow(header)
 
     for year in range(start_year, end_year+1):
-        if year < 2015:
-            continue
         scrap_year(year)
 
     print("\nfinished!")
+
+# # append to file with start year
+# with open(filename , 'a', newline='') as csvfile:
+#     # write header
+#     writer = csv.writer(csvfile)
+#     # writer.writerow(header)
+#
+#     for year in range(start_year, end_year+1):
+#         if year < 2015:
+#             continue
+#         scrap_year(year)
+#
+#     print("\nfinished!")
