@@ -5,8 +5,8 @@ import datetime
 
 # station = 'KNYNEWYO591'
 station = 'KNYNEWYO421'
-start_year = 2016
-end_year = 2017
+start_year = 2011
+end_year = 2013
 # filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
 filename = 'amateur_{2}_{0}-{1}.csv'.format(start_year, end_year, station)
 

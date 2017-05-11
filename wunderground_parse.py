@@ -1,9 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
+import datetime
 
-start_year = 2013
-end_year = 2014
+start_year = 2011
+end_year = 2017
 filename = 'wunderground_{0}-{1}.csv'.format(start_year, end_year)
 months_with_30days = [4, 6, 9, 11]
 column_names = ['Time(EDT)', 'Temp.', 'Dew Point', 'Humidity', 'Pressure', 'Visibility', 'Wind Dir', 'Wind Speed',
@@ -40,6 +41,11 @@ def scrap_daily_wunder_csv(year, month, day):
     contents = str(r.content).split("<br />\\n")
     # header = contents[0][4:].split(',')
     # writer.writerow(header)
+
+    if contents[1] == 'No daily or hourly history data available':
+        print(' *ERROR* : No daily or hourly history data available'.format(year, month, day))
+        return
+
     rows = [list(row.split(',')) for row in contents[1:]][:-1]
     for row in rows:
         # print(row)
@@ -57,6 +63,9 @@ def scrap_year(year):
             # take care of months with 30 days
             if month in months_with_30days and day > 30:
                 break
+            # stop after today's date
+            if datetime.date(year, month, day) > datetime.date.today():
+                return
             print('\r{0} {1} {2}'.format(year, month, day), end='')
             scrap_daily_wunder_csv(year, month, day)
 
@@ -70,4 +79,4 @@ with open(filename , 'w', newline='') as csvfile:
     for year in range(start_year, end_year+1):
         scrap_year(year)
 
-    print("finished")
+    print("\nfinished!")
